@@ -13,4 +13,8 @@ class TterimaBarangHd {
     	tanggalTerima(nullable:true)
     	supplier(nullable:true)
     }
+
+    static mapping = {
+    	lpbdt(cascade: "all-delete-orphan")
+    }
 }
