@@ -7,6 +7,8 @@ class MbarangController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def dataSource
+
     def autocomplete() {
         def query = """
                      select new map(
@@ -23,6 +25,40 @@ class MbarangController {
         def arrNamaBarang = Mbarang.executeQuery(query, [paramNamaBarang: params.term?.toString()])
 
         render arrNamaBarang as JSON        
+    }
+
+    def cekstok() {
+
+        groovy.sql.Sql tempSql = new groovy.sql.Sql(dataSource)
+
+        def arrNamaBarang = tempSql.rows("""
+            SELECT mbarang.*, 
+                (
+                    COALESCE(stok_awal, 0)
+                    + COALESCE(terima.jumlah_terima, 0)
+                    - COALESCE(keluar.jumlah_keluar, 0)
+                ) AS stok
+            FROM 
+                mbarang 
+                LEFT JOIN
+                (
+                    SELECT barang_id, sum(jumlah_barang) AS jumlah_terima
+                    FROM tterima_barang_dt 
+                    GROUP BY barang_id
+                ) terima ON mbarang.id = terima.barang_id
+                LEFT JOIN
+                (
+                    SELECT barang_id, sum(jumlah_barang) AS jumlah_keluar
+                    FROM tkeluar_barang_dt 
+                    GROUP BY barang_id
+                ) keluar ON mbarang.id = keluar.barang_id
+        """)
+
+        tempSql.close()
+
+
+        [mbarangInstanceList:arrNamaBarang]
+
     }
     
     def index() {

@@ -5,7 +5,7 @@
 	<head>
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'mbarang.label', default: 'Mbarang')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
+		<title>Cek Stok Barang</title>
 	</head>
 	<body>
 		<a href="#list-mbarang" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -26,13 +26,13 @@
 					
 						<g:sortableColumn property="barcode" title="${message(code: 'mbarang.barcode.label', default: 'Barcode')}" />
 					
-						<g:sortableColumn property="hargaBeli" title="${message(code: 'mbarang.hargaBeli.label', default: 'Harga Beli')}" />
+						<g:sortableColumn property="harga_beli" title="${message(code: 'mbarang.harga_beli.label', default: 'Harga Beli')}" />
 					
-						<g:sortableColumn property="hargaJual" title="${message(code: 'mbarang.hargaJual.label', default: 'Harga Jual')}" />
+						<g:sortableColumn property="harga_jual" title="${message(code: 'mbarang.harga_jual.label', default: 'Harga Jual')}" />
 					
 						<g:sortableColumn property="nama" title="${message(code: 'mbarang.nama.label', default: 'Nama')}" />
 
-						%{-- <th>stok</th> --}%
+						<th>Stok</th>
 					
 					</tr>
 				</thead>
@@ -40,23 +40,23 @@
 				<g:each in="${mbarangInstanceList}" status="i" var="mbarangInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${mbarangInstance.id}">${fieldValue(bean: mbarangInstance, field: "barcode")}</g:link></td>
+						<td><g:link action="show" id="${mbarangInstance.id}">${mbarangInstance?.barcode}</g:link></td>
 					
-						<td>${fieldValue(bean: mbarangInstance, field: "hargaBeli")}</td>
+						<td><g:formatNumber number="${mbarangInstance?.harga_beli}" format="###,###.00" /></td>
 					
-						<td>${fieldValue(bean: mbarangInstance, field: "hargaJual")}</td>
+						<td><g:formatNumber number="${mbarangInstance?.harga_jual}" format="###,###.00" /></td>
 					
-						<td>${fieldValue(bean: mbarangInstance, field: "nama")}</td>
+						<td>${mbarangInstance?.nama}</td>
 
-						%{-- <td>${fieldValue(bean: mbarangInstance, field: "stok")}</td> --}%
+						<td>${mbarangInstance?.stok}</td>
 					
 					</tr>
 				</g:each>
 				</tbody>
 			</table>
-			<div class="pagination">
+			%{-- <div class="pagination">
 				<g:paginate total="${mbarangInstanceTotal}" />
-			</div>
+			</div> --}%
 		</div>
 	</body>
 </html>
