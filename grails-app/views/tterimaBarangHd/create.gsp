@@ -2,11 +2,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
+		<meta name="layout" content="tbmain">
 		<g:set var="entityName" value="${message(code: 'tterimaBarangHd.label', default: 'TterimaBarangHd')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
-		<r:require modules="jquery"/>
-		<r:require modules="jquery-ui"/>
+		
 	</head>
 	<body>
 		<a href="#create-tterimaBarangHd" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>

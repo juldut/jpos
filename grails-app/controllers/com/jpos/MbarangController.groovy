@@ -14,12 +14,14 @@ class MbarangController {
                      select new map(
                         id as id, 
                         nama as value, 
-                        concat(nama, ' - ') as label, 
+                        concat(barcode, ' - ', nama) as label, 
                         hargaBeli as hargaBeli,
                         hargaJual as hargaJual
                      )
                      from ${Mbarang.name} 
-                     where nama like concat('%', :paramNamaBarang, '%')
+                     where 
+                        nama like concat('%', :paramNamaBarang, '%')
+                        or barcode like concat('%', :paramNamaBarang, '%')
                     """
 
         def arrNamaBarang = Mbarang.executeQuery(query, [paramNamaBarang: params.term?.toString()])

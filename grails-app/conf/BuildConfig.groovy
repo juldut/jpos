@@ -53,6 +53,8 @@ grails.project.dependency.resolution = {
 
         compile ":jquery-ui:1.10.3"
 
+        runtime ':twitter-bootstrap:3.0.2'
+
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
         //runtime ":cached-resources:1.0"
