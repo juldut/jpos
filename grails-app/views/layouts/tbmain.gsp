@@ -32,7 +32,31 @@
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="${createLink(uri: '/')}">Home</a></li>
-						<li><a href="#about">About</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Master <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								
+								
+								<li>
+									<a href="#">Barang <b class="right-caret"></b></a>
+									<ul class="dropdown-menu sub-menu">
+										<li><a href="${createLink(controller:'Mbarang', action:'create')}">New</a></li>
+										<li><a href="${createLink(controller:'Mbarang', action:'list')}">List</a></li>
+										<li><a href="${createLink(controller:'Mbarang', action:'cekstok')}">Cek Stok</a></li>
+
+										%{-- <li class="divider"></li>
+										<li class="nav-header">Nav header</li>
+										<li><a href="#">Separated link</a></li>
+										<li><a href="#">One more separated link</a></li> --}%
+
+									</ul>
+								</li>
+
+								<li><a href="#">Customer</a></li>
+								<li><a href="#">Supplier</a></li>
+
+							</ul>
+						</li>
 						<li><a href="#contact">Contact</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>

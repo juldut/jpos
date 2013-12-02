@@ -24,7 +24,8 @@ class MbarangController {
                         or barcode like concat('%', :paramNamaBarang, '%')
                     """
 
-        def arrNamaBarang = Mbarang.executeQuery(query, [paramNamaBarang: params.term?.toString()])
+
+        def arrNamaBarang = Mbarang.executeQuery(query, [paramNamaBarang: params.term?.toString()], [max:5])
 
         render arrNamaBarang as JSON        
     }

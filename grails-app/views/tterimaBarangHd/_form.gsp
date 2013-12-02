@@ -88,8 +88,8 @@
 				<input type="hidden" name="idBarangInput" id="idBarangInput">
 			</td>
 			<td><input type="text" name="jumlahBarangInput" id="jumlahBarangInput" class='form-control'></td>
-			<td><input type="text" name="hargaBarangInput" id="hargaBarangInput" class='form-control'></td>
-			<td><button type="button" onclick="tambahBarang()"  class='btn btn-default'><span class="glyphicon glyphicon-plus"> Add</span></button></td>
+			<td><input type="text" readonly name="hargaBarangInput" id="hargaBarangInput" class='form-control'></td>
+			<td><button type="button" id="btnAdd" onclick="tambahBarang()"  class='btn btn-default'><span class="glyphicon glyphicon-plus"> Add</span></button></td>
 			<td></td>
 		</tr>
 
@@ -105,17 +105,31 @@
 			select: function(event, ui) {
 				document.getElementById("hargaBarangInput").value = ui.item.hargaBeli;
 				document.getElementById("idBarangInput").value = ui.item.id;
+				document.getElementById("jumlahBarangInput").value = "1";
 				document.getElementById("jumlahBarangInput").select();
 			},
+			autoFocus: true,
 		});
 		
 		$("#namaBarangInput").bind( "keydown", function( event ) {
 			if (event.keyCode != $.ui.keyCode.ENTER && event.keyCode != $.ui.keyCode.TAB) {
 				document.getElementById("idBarangInput").value = "";
 			}
+			if (event.keyCode == $.ui.keyCode.ENTER  ) {
+				// document.getElementById("btnAdd").focus();
+				event.preventDefault();
+			}
+		});
+
+		$("#jumlahBarangInput").bind( "keydown", function( event ) {
+			if (event.keyCode == $.ui.keyCode.ENTER ) {
+				document.getElementById("btnAdd").focus();
+			}
 		});
 
 		hitungGrandTotal();
+
+		$("#namaBarangInput").focus();
 
 	});
 
@@ -157,7 +171,7 @@
 		}
 		else {
 			alert("Kode barang tidak dikenali");
-			document.getElementById("namaBarangInput").select();
+			document.getElementById("namaBarangInput").focus();
 		}
 
 
