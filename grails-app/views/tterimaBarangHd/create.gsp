@@ -17,6 +17,7 @@
 		</div> --}%
 		<div id="create-tterimaBarangHd" class="content scaffold-create" role="main">
 			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+			<hr/>
 			<g:if test="${flash.message}">
 			<div class="alert alert-danger" role="status">${flash.message}</div>
 			</g:if>
@@ -27,7 +28,7 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form action="save" >
+			<g:form action="save" class='form-horizontal' >
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>

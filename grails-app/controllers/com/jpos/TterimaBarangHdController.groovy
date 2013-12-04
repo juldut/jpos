@@ -25,6 +25,9 @@ class TterimaBarangHdController {
     }
 
     def save() {
+
+        params.tanggalTerima = new Date().parse("yyyy-MM-dd", params.tanggalTerima)
+
         def tterimaBarangHdInstance = new TterimaBarangHd(params)
 
         if (params.idBarang == "") {

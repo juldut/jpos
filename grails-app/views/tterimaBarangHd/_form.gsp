@@ -1,4 +1,5 @@
 <%@ page import="com.jpos.TterimaBarangHd" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 
 
 
@@ -20,20 +21,30 @@
 </div>
 --}%
  
-<div class="fieldcontain ${hasErrors(bean: tterimaBarangHdInstance, field: 'supplier', 'error')} required">
-	<label for="supplier">
+<div class="form-group ${hasErrors(bean: tterimaBarangHdInstance, field: 'supplier', 'error')} required">
+	<label for="supplier" class="control-label col-sm-3">
 		<g:message code="tterimaBarangHd.supplier.label" default="Supplier" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="supplier" name="supplier.id" from="${com.jpos.Msupplier.list()}" optionKey="id" required="" value="${tterimaBarangHdInstance?.supplier?.id}" class=''/>
+	<div class="col-sm-4">
+		<g:select id="supplier" name="supplier.id" from="${com.jpos.Msupplier.list()}" optionKey="id" required="" value="${tterimaBarangHdInstance?.supplier?.id}" class='form-control'/>
+	</div>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: tterimaBarangHdInstance, field: 'tanggalTerima', 'error')} required">
-	<label for="tanggalTerima">
+<div class="form-group ${hasErrors(bean: tterimaBarangHdInstance, field: 'tanggalTerima', 'error')} required">
+	<label for="tanggalTerima" class="control-label col-sm-3">
 		<g:message code="tterimaBarangHd.tanggalTerima.label" default="Tanggal Terima" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:datePicker name="tanggalTerima" precision="day"  value="${tterimaBarangHdInstance?.tanggalTerima}"  />
+
+	%{-- <g:datePicker name="tanggalTerima" precision="day"  value="${tterimaBarangHdInstance?.tanggalTerima}" class='form-control' /> --}%
+
+	<div class="col-sm-3">
+		<g:set var="tempSdf" value="${new SimpleDateFormat('yyyy-MM-dd')}" />
+		<input type="text" id="tanggalTerima" name="tanggalTerima" class='form-control' value="${tterimaBarangHdInstance.tanggalTerima ? tempSdf.format(tterimaBarangHdInstance.tanggalTerima) : tempSdf.format(new Date())}">
+
+	</div>
+
 </div>
 
 <div id="grandTotal"></div>
@@ -128,6 +139,10 @@
 		});
 
 		hitungGrandTotal();
+
+		$( "#tanggalTerima" ).datepicker({
+			dateFormat: "yy-mm-dd",
+		});
 
 		$("#namaBarangInput").focus();
 

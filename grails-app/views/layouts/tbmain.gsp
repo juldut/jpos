@@ -37,9 +37,9 @@
 							<ul class="dropdown-menu">
 								
 								
-								<li>
-									<a href="#">Barang <b class="right-caret"></b></a>
-									<ul class="dropdown-menu sub-menu">
+								<li class="dropdown-submenu">
+									<a href="#">Barang</a>
+									<ul class="dropdown-menu ">
 										<li><a href="${createLink(controller:'Mbarang', action:'create')}">New</a></li>
 										<li><a href="${createLink(controller:'Mbarang', action:'list')}">List</a></li>
 										<li><a href="${createLink(controller:'Mbarang', action:'cekstok')}">Cek Stok</a></li>
@@ -52,8 +52,21 @@
 									</ul>
 								</li>
 
-								<li><a href="#">Customer</a></li>
-								<li><a href="#">Supplier</a></li>
+								<li class="dropdown-submenu">
+									<a href="#">Customer</a>
+									<ul class="dropdown-menu">
+										<li><a href="${createLink(controller:'Mcustomer', action:'create')}">New</a></li>
+										<li><a href="${createLink(controller:'Mcustomer', action:'list')}">List</a></li>
+									</ul>
+								</li>
+
+								<li class="dropdown-submenu">
+									<a href="#">Supplier</a>
+									<ul class="dropdown-menu ">
+										<li><a href="${createLink(controller:'Msupplier', action:'create')}">New</a></li>
+										<li><a href="${createLink(controller:'Msupplier', action:'list')}">List</a></li>
+									</ul>
+								</li>
 
 							</ul>
 						</li>
