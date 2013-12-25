@@ -1,10 +1,16 @@
+<!DOCTYPE html>
+<html>
+
 <head>
-<meta name='layout' content='main' />
-<title><g:message code="springSecurity.denied.title" /></title>
+	<meta name='layout' content='main' />
+	<title><g:message code="springSecurity.denied.title" /></title>
 </head>
 
 <body>
-<div class='body'>
-	<div class='errors'><g:message code="springSecurity.denied.message" /></div>
-</div>
+	<g:message code="springSecurity.denied.message" /><br/>
+	<a href="${createLink(uri: '/')}" >Back to index</a><br/>
+	<img src="${resource(dir: 'images', file: 'notauth.png')}">
+	
 </body>
+
+</html>

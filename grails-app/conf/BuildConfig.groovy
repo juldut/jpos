@@ -5,6 +5,7 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.project.target.level = 1.6
 grails.project.source.level = 1.6
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
+// grails.project.work.dir = 'target'   // ajarane burt beckwith, terus sing 3 biji diatas dibuang ( target/* )
 grails.server.port.http = 9000
 // uncomment (and adjust settings) to fork the JVM to isolate classpaths
 //grails.project.fork = [
@@ -49,7 +50,7 @@ grails.project.dependency.resolution = {
         runtime ":jquery:1.10.2"
         runtime ":resources:1.2"
 
-        compile ":spring-security-core:1.2.7.3"
+        compile ":spring-security-core:2.0-RC2"
 
         compile ":jquery-ui:1.10.3"
 

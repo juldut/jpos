@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="tbmain">
+		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'tterimaBarangHd.label', default: 'TterimaBarangHd')}" />
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
 		
@@ -28,7 +28,7 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form method="post" >
+			<g:form method="post" class="form-horizontal">
 				<g:hiddenField name="id" value="${tterimaBarangHdInstance?.id}" />
 				<g:hiddenField name="version" value="${tterimaBarangHdInstance?.version}" />
 				<fieldset class="form">

@@ -2,9 +2,15 @@ package com.jpos
 
 import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
-import grails.plugins.springsecurity.Secured
+// import grails.plugins.springsecurity.Secured    // for ver 1.2.7.3
+import grails.plugin.springsecurity.annotation.Secured  // for ver 2.0-RC2
 
-@Secured(['ROLE_ADMIN'])
+import java.text.NumberFormat
+import java.lang.Number
+
+// @Secured(value=["hasRole('ROLE_ADMIN')"], httpMethod='POST')
+// @Secured(value=["hasRole('ROLE_ADMIN')"])
+@Secured(value=["isAuthenticated()"])
 class TkeluarBarangHdController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -25,6 +31,8 @@ class TkeluarBarangHdController {
     }
 
     def save() {
+        params.tanggalKeluar = new Date().parse("yyyy-MM-dd", params.tanggalKeluar)
+
         def tkeluarBarangHdInstance = new TkeluarBarangHd(params)
 
         if (params.idBarang == "") {
@@ -34,14 +42,16 @@ class TkeluarBarangHdController {
         }
         
 
-        for (int i=1; i<params.idBarang.length; i++) {
-            def tempBarang = Mbarang.get(params.idBarang[i])
-            def tempDt = new TkeluarBarangDt()
-            tempDt.barang = tempBarang
-            tempDt.jumlahBarang = Double.parseDouble(params.jumlahBarang[i])
-            tempDt.hargaBarang = Double.parseDouble(params.hargaBarang[i])
-            tkeluarBarangHdInstance.addToKeluardt(tempDt)
-        }
+        // for (int i=1; i<params.idBarang.length; i++) {
+        //     def tempBarang = Mbarang.get(params.idBarang[i])
+        //     def tempDt = new TkeluarBarangDt()
+        //     tempDt.barang = tempBarang
+        //     tempDt.jumlahBarang = Double.parseDouble(params.jumlahBarang[i])
+        //     tempDt.hargaBarang = Double.parseDouble(params.hargaBarang[i])
+        //     tkeluarBarangHdInstance.addToKeluardt(tempDt)
+        // }
+
+saveDetail(tkeluarBarangHdInstance)
 
         tkeluarBarangHdInstance.pembuat = springSecurityService.currentUser
 
@@ -96,6 +106,8 @@ class TkeluarBarangHdController {
             }
         }
 
+        params.tanggalKeluar = new Date().parse("yyyy-MM-dd", params.tanggalKeluar)
+
         tkeluarBarangHdInstance.properties = params
 
         if (params.idBarang == "") {
@@ -106,15 +118,15 @@ class TkeluarBarangHdController {
 
         tkeluarBarangHdInstance.keluardt.clear()
 
-        for (int i=1; i<params.idBarang.length; i++) {
-            def tempBarang = Mbarang.get(params.idBarang[i])
-            def tempDt = new TkeluarBarangDt()
-            tempDt.barang = tempBarang
-            tempDt.jumlahBarang = Double.parseDouble(params.jumlahBarang[i])
-            tempDt.hargaBarang = Double.parseDouble(params.hargaBarang[i])
-            tkeluarBarangHdInstance.addToKeluardt(tempDt)
-        }
-
+        // for (int i=1; i<params.idBarang.length; i++) {
+        //     def tempBarang = Mbarang.get(params.idBarang[i])
+        //     def tempDt = new TkeluarBarangDt()
+        //     tempDt.barang = tempBarang
+        //     tempDt.jumlahBarang = Double.parseDouble(params.jumlahBarang[i])
+        //     tempDt.hargaBarang = Double.parseDouble(params.hargaBarang[i])
+        //     tkeluarBarangHdInstance.addToKeluardt(tempDt)
+        // }
+saveDetail(tkeluarBarangHdInstance)
 
         if (!tkeluarBarangHdInstance.save(flush: true)) {
             render(view: "edit", model: [tkeluarBarangHdInstance: tkeluarBarangHdInstance])
@@ -142,5 +154,23 @@ class TkeluarBarangHdController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'tkeluarBarangHd.label', default: 'TkeluarBarangHd'), id])
             redirect(action: "show", id: id)
         }
+    }
+
+    def saveDetail(TkeluarBarangHd paramHd) {
+        NumberFormat nf = NumberFormat.getInstance(Locale.US);
+        Number tempNumber ; 
+
+        for (int i=1; i<params.idBarang.length; i++) {
+            def tempBarang = Mbarang.get(params.idBarang[i])
+            def tempDt = new TkeluarBarangDt()
+            tempDt.barang = tempBarang
+            tempDt.jumlahBarang = Double.parseDouble(params.jumlahBarang[i])
+
+            tempNumber = nf.parse(params.hargaBarang[i])
+            tempDt.hargaBarang = tempNumber.doubleValue()
+
+            paramHd.addToKeluardt(tempDt)
+        }
+        return
     }
 }

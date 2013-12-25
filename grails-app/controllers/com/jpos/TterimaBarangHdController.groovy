@@ -2,9 +2,15 @@ package com.jpos
 
 import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
-import grails.plugins.springsecurity.Secured
+// import grails.plugins.springsecurity.Secured    // for ver 1.2.7.3
+import grails.plugin.springsecurity.annotation.Secured  // for ver 2.0-RC2
 
-@Secured(['ROLE_ADMIN'])
+import java.text.NumberFormat
+import java.lang.Number
+
+// @Secured(value=["hasRole('ROLE_ADMIN')"], httpMethod='POST')
+// @Secured(value=["hasRole('ROLE_ADMIN')"])
+@Secured(value=["isAuthenticated()"])
 class TterimaBarangHdController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -37,14 +43,15 @@ class TterimaBarangHdController {
         }
         
 
-        for (int i=1; i<params.idBarang.length; i++) {
-            def tempBarang = Mbarang.get(params.idBarang[i])
-            def tempDt = new TterimaBarangDt()
-            tempDt.barang = tempBarang
-            tempDt.jumlahBarang = Double.parseDouble(params.jumlahBarang[i])
-            tempDt.hargaBarang = Double.parseDouble(params.hargaBarang[i])
-            tterimaBarangHdInstance.addToLpbdt(tempDt)
-        }
+        // for (int i=1; i<params.idBarang.length; i++) {
+        //     def tempBarang = Mbarang.get(params.idBarang[i])
+        //     def tempDt = new TterimaBarangDt()
+        //     tempDt.barang = tempBarang
+        //     tempDt.jumlahBarang = Double.parseDouble(params.jumlahBarang[i])
+        //     tempDt.hargaBarang = Double.parseDouble(params.hargaBarang[i])
+        //     tterimaBarangHdInstance.addToLpbdt(tempDt)
+        // }
+saveDetail(tterimaBarangHdInstance)
 
         tterimaBarangHdInstance.pembuat = springSecurityService.currentUser
 
@@ -99,6 +106,8 @@ class TterimaBarangHdController {
             }
         }
 
+        params.tanggalTerima = new Date().parse("yyyy-MM-dd", params.tanggalTerima)
+
         tterimaBarangHdInstance.properties = params
 
         if (params.idBarang == "") {
@@ -109,15 +118,21 @@ class TterimaBarangHdController {
 
         tterimaBarangHdInstance.lpbdt.clear()
         
+        // NumberFormat nf = NumberFormat.getInstance(Locale.US);
+        // Number tempNumber ; 
+        // for (int i=1; i<params.idBarang.length; i++) {
+        //     def tempBarang = Mbarang.get(params.idBarang[i])
+        //     def tempDt = new TterimaBarangDt()
+        //     tempDt.barang = tempBarang
+        //     tempDt.jumlahBarang = Double.parseDouble(params.jumlahBarang[i])
 
-        for (int i=1; i<params.idBarang.length; i++) {
-            def tempBarang = Mbarang.get(params.idBarang[i])
-            def tempDt = new TterimaBarangDt()
-            tempDt.barang = tempBarang
-            tempDt.jumlahBarang = Double.parseDouble(params.jumlahBarang[i])
-            tempDt.hargaBarang = Double.parseDouble(params.hargaBarang[i])
-            tterimaBarangHdInstance.addToLpbdt(tempDt)
-        }
+        //     tempNumber = nf.parse(params.hargaBarang[i])
+        //     tempDt.hargaBarang = tempNumber.doubleValue()
+
+        //     tterimaBarangHdInstance.addToLpbdt(tempDt)
+        // }
+saveDetail(tterimaBarangHdInstance)
+
 
 
         if (!tterimaBarangHdInstance.save(flush: true)) {
@@ -147,4 +162,23 @@ class TterimaBarangHdController {
             redirect(action: "show", id: id)
         }
     }
+
+    def saveDetail(TterimaBarangHd paramHd) {
+        NumberFormat nf = NumberFormat.getInstance(Locale.US);
+        Number tempNumber ; 
+        for (int i=1; i<params.idBarang.length; i++) {
+            def tempBarang = Mbarang.get(params.idBarang[i])
+            def tempDt = new TterimaBarangDt()
+            tempDt.barang = tempBarang
+            tempDt.jumlahBarang = Double.parseDouble(params.jumlahBarang[i])
+
+            tempNumber = nf.parse(params.hargaBarang[i])
+            tempDt.hargaBarang = tempNumber.doubleValue()
+
+            paramHd.addToLpbdt(tempDt)
+        }
+        return
+
+    }
+
 }

@@ -98,7 +98,7 @@
 				<input type="text" name="namaBarangInput" id="namaBarangInput" class='form-control' placeholder="Type Barcode or Item name">
 				<input type="hidden" name="idBarangInput" id="idBarangInput">
 			</td>
-			<td><input type="text" name="jumlahBarangInput" id="jumlahBarangInput" class='form-control'></td>
+			<td><input type="text" name="jumlahBarangInput" id="jumlahBarangInput" class='form-control' value='1'></td>
 			<td><input type="text" readonly name="hargaBarangInput" id="hargaBarangInput" class='form-control'></td>
 			<td><button type="button" id="btnAdd" onclick="tambahBarang()"  class='btn btn-default'><span class="glyphicon glyphicon-plus"> Add</span></button></td>
 			<td></td>
@@ -116,10 +116,18 @@
 			select: function(event, ui) {
 				document.getElementById("hargaBarangInput").value = ui.item.hargaBeli;
 				document.getElementById("idBarangInput").value = ui.item.id;
-				document.getElementById("jumlahBarangInput").value = "1";
-				document.getElementById("jumlahBarangInput").select();
+				
+				if (document.getElementById("jumlahBarangInput").value == "") {
+					document.getElementById("jumlahBarangInput").value = "1";
+				}
+				
+				// tambahBarang(ui.item.value);
+				
+
+
 			},
 			autoFocus: true,
+
 		});
 		
 		$("#namaBarangInput").bind( "keydown", function( event ) {
@@ -129,6 +137,9 @@
 			if (event.keyCode == $.ui.keyCode.ENTER  ) {
 				// document.getElementById("btnAdd").focus();
 				event.preventDefault();
+				if (document.getElementById("idBarangInput").value != "") {
+					tambahBarang();
+				}
 			}
 		});
 
@@ -151,6 +162,10 @@
 	function tambahBarang() {
 
 		if (document.getElementById("idBarangInput").value != "") {
+
+			paramNamaBarang = document.getElementById("namaBarangInput").value;
+
+
 			var tblDetail = document.getElementById("tblDetail");
 
 			var barisTerakhir = tblDetail.rows.length - 1;
@@ -165,7 +180,7 @@
 			var cellAction = tempRow.insertCell(5);
 
 			cellNo.innerHTML = barisTerakhir;
-			cellNamaBarang.innerHTML = "<input class='form-control' type='text' readonly name='namaBarang' value='" + document.getElementById("namaBarangInput").value + "'>" + "<input type='hidden' name='idBarang' value='" + document.getElementById("idBarangInput").value + "'>";
+			cellNamaBarang.innerHTML = "<input class='form-control' type='text' readonly name='namaBarang' value='" + paramNamaBarang + "'>" + "<input type='hidden' name='idBarang' value='" + document.getElementById("idBarangInput").value + "'>";
 			cellJumlahBarang.innerHTML = "<input class='form-control' type='text' readonly name='jumlahBarang' value='" + document.getElementById("jumlahBarangInput").value + "'>";
 			cellHargaBarang.innerHTML = "<input class='form-control' type='text' readonly name='hargaBarang' value='" + document.getElementById("hargaBarangInput").value + "'>";
 			cellAction.innerHTML = "<button class='btn btn-danger' type='button' onclick='hapusBarang(" + barisTerakhir + ")' ><span class='glyphicon glyphicon-remove'></span></button>";
@@ -176,7 +191,7 @@
 
 			document.getElementById("namaBarangInput").value = "";
 			document.getElementById("idBarangInput").value = "";
-			document.getElementById("jumlahBarangInput").value = "";
+			document.getElementById("jumlahBarangInput").value = "1";
 			document.getElementById("hargaBarangInput").value = "";
 
 			hitungGrandTotal();

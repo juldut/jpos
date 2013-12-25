@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="tbmain">
-		<g:set var="entityName" value="${message(code: 'tterimaBarangHd.label', default: 'TterimaBarangHd')}" />
+		<meta name="layout" content="main">
+		<g:set var="entityName" value="${message(code: 'tterimaBarangHd.label', default: 'Penerimaan')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 		
 	</head>
@@ -15,6 +15,7 @@
 				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 			</ul>
 		</div> --}%
+
 		<div id="create-tterimaBarangHd" class="content scaffold-create" role="main">
 			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 			<hr/>

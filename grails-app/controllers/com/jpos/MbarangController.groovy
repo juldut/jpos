@@ -3,12 +3,16 @@ package com.jpos
 import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
 
+import grails.plugin.springsecurity.annotation.Secured  // for ver 2.0-RC2
+
+@Secured(value=["hasRole('ROLE_ADMIN')"])
 class MbarangController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def dataSource
 
+    @Secured(value=["isAuthenticated()"])
     def autocomplete() {
         def query = """
                      select new map(

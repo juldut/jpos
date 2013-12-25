@@ -69,10 +69,6 @@ environments {
     }
 }
 
-// Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.jpos.Mlogin'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.jpos.MloginMloginRole'
-grails.plugins.springsecurity.authority.className = 'com.jpos.MloginRole'
 
 // log4j configuration
 log4j = {
@@ -94,4 +90,22 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.jpos.Mlogin'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.jpos.MloginMloginRole'
+grails.plugin.springsecurity.authority.className = 'com.jpos.MloginRole'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+  '/':                              ['permitAll'],
+  '/index':                         ['isAuthenticated()'],
+  '/index.gsp':                     ['isAuthenticated()'],
+  '/**/js/**':                      ['permitAll'],
+  '/**/css/**':                     ['permitAll'],
+  '/**/images/**':                  ['permitAll'],
+  '/**/favicon.ico':                ['permitAll'],
+  '/about':                         ['permitAll'],
+  '/about.gsp':                     ['permitAll'],  
+]
+
+grails.plugin.springsecurity.logout.postOnly = false
 
